@@ -59,22 +59,5 @@ namespace ATMSoftwareNEW
             nextCardId++;
             _bankCards.Add(bankCard);
         }
-
-        public void ShowAll()
-        {
-            Console.WriteLine("Пользователи");
-
-            foreach (var user in _users)
-            {
-                Console.WriteLine($"{user.Id}, {user.Name}, {user.Age}");
-            }
-
-            Console.WriteLine("Карты:");
-
-            foreach (var card in _bankCards)
-            {
-                Console.WriteLine($"{card.Id}, {card.UserId}, {card.Number}, {card.PinCode}");
-            }
-        }
     }
 }
