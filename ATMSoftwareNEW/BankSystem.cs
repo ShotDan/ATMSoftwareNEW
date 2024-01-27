@@ -19,7 +19,7 @@ namespace ATMSoftwareNEW
                 enteredNumberCard = enteredNumberCard.Insert(4, " ").Insert(9, " ").Insert(14, " ");
                 BankCard bankCard = _dataBase.GetCard(enteredNumberCard);
 
-                if (bankCard != null && enteredPinCode == bankCard.PinCode)
+                if (bankCard != null && bankCard.CheckPinCode(enteredPinCode))
                 {
                     return true;
                 }
