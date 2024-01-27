@@ -35,7 +35,6 @@ namespace ATMSoftwareNEW
             }
 
             return false;
-
         }
     }
 }
