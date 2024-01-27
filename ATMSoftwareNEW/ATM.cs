@@ -22,22 +22,18 @@ namespace ATMSoftwareNEW
                 string enteredNumberCard = GetUserInput("Введите номер вашей карты:");
                 string enteredPinCode = GetUserInput("Введите пин-код вашей карты:");
 
+                if (_bankSystem.Authenticate(enteredNumberCard, enteredPinCode))
+                {
+                    Console.WriteLine("Успешно!");
+                }
+                else
+                {
+                    Console.WriteLine("Нет");
+                }
+
                 Console.ReadKey();
                 Console.Clear();
             }
-        }
-
-        private bool AuthenticateUser(string enteredNumberCard, string enteredPinCode)
-        {
-            
-            //enteredNumberCard = enteredNumberCard.Replace(" ", "");
-
-            //if(enteredNumberCard.Length == 16)
-            //{
-            //   enteredNumberCard = enteredNumberCard.Insert(4, " ").Insert(9, " ").Insert(14, " ");
-            //}
-
-            return true; //_dataBase.IsCardAndPinValid(enteredNumberCard, enteredPinCode);
         }
 
         private string GetUserInput(string prompt)

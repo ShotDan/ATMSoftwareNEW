@@ -20,29 +20,42 @@ namespace ATMSoftwareNEW
             InitCards();
         }
 
+        public BankCard GetCard(string enteredNumberCard)
+        {
+            foreach (BankCard bankCard in _bankCards)
+            {
+                if(bankCard.Number == enteredNumberCard)
+                {
+                    return bankCard;
+                }
+            }
+
+            return null;
+        }
+
         private void InitUsers()
         {
-            AddUser(11, "TEST");
-            AddUser(30, "Андрей");
+            AddUser(11, "TEST", 9000);
+            AddUser(30, "Андрей", 11000);
         }
 
         private void InitCards()
         {
-            AddCard(1,"1111 1111 1111 1111", "1111");
-            AddCard(3,"1111 1111 1111 1111", "1111");
+            AddCard(1,"1111 1111 1111 1111", "1111", 19000);
+            AddCard(2,"1111 1111 1111 1111", "1111", 19000);
 
         }
 
-        private void AddUser(int age, string name)
+        private void AddUser(int age, string name, int money)
         {
-            User user = new User(nextUserId,age, name);
+            User user = new User(nextUserId,age, name, money);
             nextUserId++;
             _users.Add(user);
         }
 
-        private void AddCard(int userId, string numCard, string pinCard)
+        private void AddCard(int userId, string numCard, string pinCard, int money)
         {
-            BankCard bankCard = new BankCard(nextCardId, userId, numCard, pinCard);
+            BankCard bankCard = new BankCard(nextCardId, userId, numCard, pinCard, money);
             nextCardId++;
             _bankCards.Add(bankCard);
         }
