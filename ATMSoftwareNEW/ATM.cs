@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,10 +19,13 @@ namespace ATMSoftwareNEW
             {
                 Console.WriteLine("Добро пожаловать в систему банкомата «HAVBANK»");
 
-                string enteredNumberCard = GetUserInput("Введите номер вашей карты:");
-                string enteredPinCode = GetUserInput("Введите пин-код вашей карты:");
+                Console.WriteLine("Введите номер вашей карты:");
+                string cardNumber = Console.ReadLine();
 
-                if (_bankSystem.Authenticate(enteredNumberCard, enteredPinCode))
+                Console.WriteLine("Введите пин-код вашей карты:");
+                string enteredPinCode = Console.ReadLine();
+
+                if (_bankSystem.Authenticate(cardNumber, enteredPinCode))
                 {
                     Console.WriteLine("Вход успешно совершён!");
                     bool isEntered = true;
@@ -31,12 +35,18 @@ namespace ATMSoftwareNEW
                         Console.ReadKey();
                         Console.Clear();
 
-                        Console.WriteLine("Выберите операцию:\n1 - Положить наличные\n2 - Снять наличные\n3 - Перевести деньги на другую карту\n4 - Изменить пин-код карты\n5 - Выход");
+                        _bankSystem.ShowCardInfo(cardNumber);
+
+                        Console.WriteLine();
+                        Console.WriteLine("Выберите операцию:\n1 - Пополнить счёт\n2 - Снять наличные\n3 - Перевести деньги на другую карту\n4 - Изменить пин-код карты\n5 - Выход");
                         string userInput = Console.ReadLine();
 
                         switch (userInput)
                         {
                             case "1":
+                                Console.WriteLine("Введите сумму, которую вы хотите положить:");
+                                userInput = Console.ReadLine();
+                                _bankSystem.PutMoney(userInput);
                                 break;
 
                             case "2":
@@ -62,12 +72,6 @@ namespace ATMSoftwareNEW
                 Console.ReadKey();
                 Console.Clear();
             }
-        }
-
-        private string GetUserInput(string prompt)
-        {
-            Console.WriteLine(prompt);
-            return Console.ReadLine();
         }
     }
 }

@@ -20,17 +20,14 @@ namespace ATMSoftwareNEW
             InitCards();
         }
 
-        public BankCard GetCard(string enteredNumberCard)
+        public User GetUser(int userId)
         {
-            foreach (BankCard bankCard in _bankCards)
-            {
-                if(bankCard.Number == enteredNumberCard)
-                {
-                    return bankCard;
-                }
-            }
+            return _users.FirstOrDefault(user => user.Id == userId);
+        }
 
-            return null;
+        public BankCard GetCard(string cardNumber)
+        {
+            return _bankCards.FirstOrDefault(card=> card.Number == cardNumber);
         }
 
         private void InitUsers()
@@ -42,7 +39,7 @@ namespace ATMSoftwareNEW
         private void InitCards()
         {
             AddCard(1,"1111 1111 1111 1111", "1111", 19000);
-            AddCard(2,"1111 1111 1111 1111", "1111", 19000);
+            AddCard(2,"2222 2222 2222 2222", "1505", 13000);
 
         }
 
