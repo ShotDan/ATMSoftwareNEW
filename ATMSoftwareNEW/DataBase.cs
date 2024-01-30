@@ -15,7 +15,7 @@ namespace ATMSoftwareNEW
         private List<BankCard> _bankCards = new List<BankCard>();
 
         public DataBase()
-        { 
+        {
             InitUsers();
             InitCards();
         }
@@ -27,7 +27,7 @@ namespace ATMSoftwareNEW
 
         public BankCard GetCard(string cardNumber)
         {
-            return _bankCards.FirstOrDefault(card=> card.Number == cardNumber);
+            return _bankCards.FirstOrDefault(card => card.Number == cardNumber);
         }
 
         private void InitUsers()
@@ -38,14 +38,14 @@ namespace ATMSoftwareNEW
 
         private void InitCards()
         {
-            AddCard(1,"1111 1111 1111 1111", "1111", 19000);
-            AddCard(2,"2222 2222 2222 2222", "1505", 13000);
+            AddCard(1, "1111111111111111", "1111", 19000);
+            AddCard(2, "2222222222222222", "1505", 13000);
 
         }
 
         private void AddUser(int age, string name, int money)
         {
-            User user = new User(nextUserId,age, name, money);
+            User user = new User(nextUserId, age, name, money);
             nextUserId++;
             _users.Add(user);
         }

@@ -20,58 +20,89 @@ namespace ATMSoftwareNEW
                 Console.WriteLine("Добро пожаловать в систему банкомата «HAVBANK»");
 
                 Console.WriteLine("Введите номер вашей карты:");
-                string cardNumber = Console.ReadLine();
+                string cardNumber = Console.ReadLine().Replace(" ", "");
 
                 Console.WriteLine("Введите пин-код вашей карты:");
-                string enteredPinCode = Console.ReadLine();
+                string pinCode = Console.ReadLine().Replace(" ", "");
 
-                if (_bankSystem.Authenticate(cardNumber, enteredPinCode))
+                if (ValidateCardNumber(cardNumber) && ValidatePinCode(pinCode))
                 {
-                    Console.WriteLine("Вход успешно совершён!");
-                    bool isEntered = true;
-
-                    while (isEntered)
+                    if (_bankSystem.Authenticate(cardNumber, pinCode))
                     {
-                        Console.ReadKey();
-                        Console.Clear();
+                        Console.WriteLine("Вход успешно совершён!");
+                        bool isEntered = true;
 
-                        _bankSystem.ShowCardInfo(cardNumber);
-
-                        Console.WriteLine();
-                        Console.WriteLine("Выберите операцию:\n1 - Пополнить счёт\n2 - Снять наличные\n3 - Перевести деньги на другую карту\n4 - Изменить пин-код карты\n5 - Выход");
-                        string userInput = Console.ReadLine();
-
-                        switch (userInput)
+                        while (isEntered)
                         {
-                            case "1":
-                                Console.WriteLine("Введите сумму, которую вы хотите положить:");
-                                userInput = Console.ReadLine();
-                                _bankSystem.PutMoney(userInput);
-                                break;
+                            Console.ReadKey();
+                            Console.Clear();
 
-                            case "2":
-                                break;
+                            _bankSystem.ShowCardInfo(cardNumber);
 
-                            case "3":
-                                break;
+                            Console.WriteLine();
+                            Console.WriteLine("Выберите операцию:\n1 - Пополнить счёт\n2 - Снять наличные\n3 - Перевести деньги на другую карту\n4 - Изменить пин-код карты\n5 - Выход");
+                            string userInput = Console.ReadLine();
 
-                            case "4":
-                                break;
+                            switch (userInput)
+                            {
+                                case "1":
+                                    Console.WriteLine("Введите сумму, которую вы хотите положить:");
+                                    userInput = Console.ReadLine();
+                                    _bankSystem.PutMoney(userInput);
+                                    break;
 
-                            case "5":
-                                isEntered = false;
-                                break;
+                                case "2":
+                                    break;
 
-                            default:
-                                Console.WriteLine("Некорректный ввод!");
-                                break;
+                                case "3":
+                                    break;
+
+                                case "4":
+                                    break;
+
+                                case "5":
+                                    isEntered = false;
+                                    break;
+
+                                default:
+                                    Console.WriteLine("Некорректный ввод!");
+                                    break;
+                            }
                         }
                     }
+                    else
+                    {
+                        Console.WriteLine("Неправильный номер карты или пин-код!");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Неккоректный номер карты или пин-код!");
                 }
 
                 Console.ReadKey();
                 Console.Clear();
             }
+        }
+
+        public bool ValidateCardNumber(string cardNumber)
+        {
+            if (cardNumber.Length == 16)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool ValidatePinCode(string pinCode)
+        {
+            if (pinCode.Length == 4)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
