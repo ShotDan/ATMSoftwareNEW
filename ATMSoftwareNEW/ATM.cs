@@ -87,7 +87,7 @@ namespace ATMSoftwareNEW
 
         public bool ValidateCardNumber(string cardNumber)
         {
-            if (cardNumber.Length == 16)
+            if (cardNumber.Length == 16 && long.TryParse(cardNumber, out long number))
             {
                 return true;
             }
@@ -95,9 +95,9 @@ namespace ATMSoftwareNEW
             return false;
         }
 
-        public bool ValidatePinCode(string pinCode)
+        public bool ValidatePinCode(string pinCode )
         {
-            if (pinCode.Length == 4)
+            if (pinCode.Length == 4 && int.TryParse(pinCode, out int pin))
             {
                 return true;
             }
