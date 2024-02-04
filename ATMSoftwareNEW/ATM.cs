@@ -10,6 +10,9 @@ namespace ATMSoftwareNEW
     public class ATM
     {
         private BankSystem _bankSystem = new BankSystem();
+        private bool _auth;
+        private int _bankCardId;
+        private int _userId;
 
         public void Work()
         {
@@ -27,53 +30,57 @@ namespace ATMSoftwareNEW
 
                 if (ValidateCardNumber(cardNumber) && ValidatePinCode(pinCode))
                 {
-                    if (_bankSystem.Authenticate(cardNumber, pinCode))
+                    BankCard bankCard = _bankSystem.GetCard(cardNumber);
+                    User user = _bankSystem.GetUser(bankCard.UserId);
+                    _bankCardId = bankCard.Id;
+                    _userId = user.Id;
+
+                    if (bankCard != null && pinCode == bankCard.PinCode)
                     {
                         Console.WriteLine("Вход успешно совершён!");
-                        bool isEntered = true;
-
-                        while (isEntered)
-                        {
-                            Console.ReadKey();
-                            Console.Clear();
-
-                            _bankSystem.ShowCardInfo(cardNumber);
-
-                            Console.WriteLine();
-                            Console.WriteLine("Выберите операцию:\n1 - Пополнить счёт\n2 - Снять наличные\n3 - Перевести деньги на другую карту\n4 - Изменить пин-код карты\n5 - Выход");
-                            string userInput = Console.ReadLine();
-
-                            switch (userInput)
-                            {
-                                case "1":
-                                    Console.WriteLine("Введите сумму, которую вы хотите положить:");
-                                    userInput = Console.ReadLine();
-                                    _bankSystem.PutMoney(userInput);
-                                    break;
-
-                                case "2":
-                                    break;
-
-                                case "3":
-                                    break;
-
-                                case "4":
-                                    break;
-
-                                case "5":
-                                    isEntered = false;
-                                    break;
-
-                                default:
-                                    Console.WriteLine("Некорректный ввод!");
-                                    break;
-                            }
-                        }
+                        _auth = true;
                     }
                     else
                     {
                         Console.WriteLine("Неправильный номер карты или пин-код!");
                     }
+
+                    while (_auth)
+                    {
+                        Console.ReadKey();
+                        Console.Clear();
+
+                        Console.WriteLine($"{user.Name}, добро пожаловать!\nНа вашем счёте {bankCard.Money}, Ваши наличные:{user.Money}");
+
+                        Console.WriteLine();
+                        Console.WriteLine("Выберите операцию:\n1 - Пополнить счёт\n2 - Снять наличные\n3 - Перевести деньги на другую карту\n4 - Изменить пин-код карты\n5 - Выход");
+                        string userInput = Console.ReadLine();
+
+                        switch (userInput)
+                        {
+                            case "1":
+                                TryDeposit();
+                                break;
+
+                            case "2":
+                                break;
+
+                            case "3":
+                                break;
+
+                            case "4":
+                                break;
+
+                            case "5":
+                                _auth = false;
+                                break;
+
+                            default:
+                                Console.WriteLine("Некорректный ввод!");
+                                break;
+                        }
+                    }
+
                 }
                 else
                 {
@@ -85,24 +92,43 @@ namespace ATMSoftwareNEW
             }
         }
 
-        public bool ValidateCardNumber(string cardNumber)
+        private bool ValidateCardNumber(string cardNumber)
         {
-            if (cardNumber.Length == 16 && long.TryParse(cardNumber, out long number))
-            {
-                return true;
-            }
-
-            return false;
+            return cardNumber.Length == 16 && long.TryParse(cardNumber, out long _);
         }
 
-        public bool ValidatePinCode(string pinCode )
+        private bool ValidatePinCode(string pinCode)
         {
-            if (pinCode.Length == 4 && int.TryParse(pinCode, out int pin))
-            {
-                return true;
-            }
+            return pinCode.Length == 4 && int.TryParse(pinCode, out int _);
+        }
 
-            return false;
+        private int ValidateDesiredSum(string userInput)
+        {
+            int.TryParse(userInput, out int desiredSum);
+            return desiredSum;
+        }
+
+        private void TryDeposit()
+        {
+            Console.WriteLine("Введите сумму, которую вы хотите положить:");
+            string userInput = Console.ReadLine();
+            int desiredSum = ValidateDesiredSum(userInput);
+
+            if (desiredSum > 0)
+            {
+                if (_bankSystem.IsUserMoneyEnough(desiredSum, _userId))
+                {
+                    _bankSystem.Deposit(desiredSum, _bankCardId, _userId);            
+                }
+                else
+                {
+                    Console.WriteLine("Недостаточно средств!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Неккоректное число!");
+            }
         }
     }
 }

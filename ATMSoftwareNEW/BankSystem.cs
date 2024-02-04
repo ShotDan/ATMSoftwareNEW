@@ -8,45 +8,55 @@ namespace ATMSoftwareNEW
 {
     public class BankSystem
     {
-        DataBase _dataBase = new DataBase();
+        private DataBase _dataBase = new DataBase();
+
+        public User GetUser(int userId)
+        {
+            return _dataBase.GetUserById(userId);
+        }
+
+        public BankCard GetCard(string numberCard)
+        {
+           return _dataBase.GetCardByNumber(numberCard);
+        }
 
         public bool Authenticate(string numberCard, string pinCode)
         {
-            BankCard bankCard = _dataBase.GetCard(numberCard);
+            BankCard bankCard = _dataBase.GetCardByNumber(numberCard);
 
-            if (bankCard != null && bankCard.CheckPinCode(pinCode))
+            if (bankCard != null)
             {
-                return true;
+                if (pinCode == bankCard.PinCode)
+                {
+                    return true;
+                }
             }
 
             return false;
         }
 
-        public void ShowCardInfo(string cardNumber)
+        public bool IsThereBankCard(string numberCard)
         {
-            BankCard bankCard = _dataBase.GetCard(cardNumber);
-            User user = _dataBase.GetUser(bankCard.UserId);
-
-            if (bankCard != null && user != null)
-            {
-                Console.WriteLine($"{user.Name}, добро пожаловать!\nНа вашем счёте {bankCard.Money}, Ваши наличные:{user.Money}");
-            }
-            else
-            {
-                Console.WriteLine("Ошибка! карты или пользователя не существует");
-            }
+            BankCard bankCard = _dataBase.GetCardByNumber(numberCard);
+            return bankCard != null;
         }
 
-        public void PutMoney(string userInput)
+        public int GetCardId(string numberCard)
         {
-            if (int.TryParse(userInput, out int value))
-            {
+            BankCard bankCard = _dataBase.GetCardByNumber(numberCard);
+            return bankCard.Id;
+        }
 
-            }
-            else
-            {
-                Console.WriteLine("Некорректный ввод!");
-            }
+        public bool IsUserMoneyEnough(int desiredSum, int userId)
+        {
+            User user = _dataBase.GetUserById(userId);
+            return user.Money >= desiredSum;
+        }
+
+        public void Deposit(int desiredSum, int cardId, int userId)
+        {
+            BankCard bankCard = _dataBase.GetCardById(cardId);
+            User user = _dataBase.GetUserById(userId);
         }
     }
 }

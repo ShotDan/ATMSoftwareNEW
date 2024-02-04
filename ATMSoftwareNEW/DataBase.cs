@@ -20,20 +20,25 @@ namespace ATMSoftwareNEW
             InitCards();
         }
 
-        public User GetUser(int userId)
+        public BankCard GetCardById(int cardId)
+        {
+            return _bankCards.FirstOrDefault(card => card.Id == cardId);
+        }
+
+        public User GetUserById(int userId)
         {
             return _users.FirstOrDefault(user => user.Id == userId);
         }
 
-        public BankCard GetCard(string cardNumber)
+        public BankCard GetCardByNumber(string cardNumber)
         {
             return _bankCards.FirstOrDefault(card => card.Number == cardNumber);
         }
 
         private void InitUsers()
         {
-            AddUser(11, "TEST", 9000);
-            AddUser(30, "Андрей", 11000);
+            AddUser("TEST", 9000);
+            AddUser("Андрей", 11000);
         }
 
         private void InitCards()
@@ -43,9 +48,9 @@ namespace ATMSoftwareNEW
 
         }
 
-        private void AddUser(int age, string name, int money)
+        private void AddUser( string name, int money)
         {
-            User user = new User(nextUserId, age, name, money);
+            User user = new User(nextUserId, name, money);
             nextUserId++;
             _users.Add(user);
         }

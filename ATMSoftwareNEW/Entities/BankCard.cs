@@ -12,8 +12,7 @@ namespace ATMSoftwareNEW
         public int UserId { get; private set; }
         public string Number { get; private set; }
         public int Money { get; private set; }
-
-        private string PinCode;
+        public string PinCode { get; private set; }
 
         public BankCard(int id, int userId, string numCard, string pinCard, int money)
         {
