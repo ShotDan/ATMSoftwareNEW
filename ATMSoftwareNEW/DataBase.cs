@@ -20,6 +20,33 @@ namespace ATMSoftwareNEW
             InitCards();
         }
 
+        private void InitUsers()
+        {
+            AddUser("TEST");
+            AddUser("Андрей");
+        }
+
+        private void InitCards()
+        {
+            AddCard(1, "1111111111111111", "1111", 19000);
+            AddCard(2, "2222222222222222", "1505", 13000);
+
+        }
+
+        private void AddUser(string name)
+        {
+            User user = new User(nextUserId, name);
+            nextUserId++;
+            _users.Add(user);
+        }
+
+        private void AddCard(int userId, string numCard, string pinCard, int money)
+        {
+            BankCard bankCard = new BankCard(nextCardId, userId, numCard, pinCard, money);
+            nextCardId++;
+            _bankCards.Add(bankCard);
+        }
+
         public BankCard GetCardById(int cardId)
         {
             return _bankCards.FirstOrDefault(card => card.Id == cardId);
@@ -33,33 +60,6 @@ namespace ATMSoftwareNEW
         public BankCard GetCardByNumber(string cardNumber)
         {
             return _bankCards.FirstOrDefault(card => card.Number == cardNumber);
-        }
-
-        private void InitUsers()
-        {
-            AddUser("TEST", 9000);
-            AddUser("Андрей", 11000);
-        }
-
-        private void InitCards()
-        {
-            AddCard(1, "1111111111111111", "1111", 19000);
-            AddCard(2, "2222222222222222", "1505", 13000);
-
-        }
-
-        private void AddUser( string name, int money)
-        {
-            User user = new User(nextUserId, name, money);
-            nextUserId++;
-            _users.Add(user);
-        }
-
-        private void AddCard(int userId, string numCard, string pinCard, int money)
-        {
-            BankCard bankCard = new BankCard(nextCardId, userId, numCard, pinCard, money);
-            nextCardId++;
-            _bankCards.Add(bankCard);
         }
     }
 }

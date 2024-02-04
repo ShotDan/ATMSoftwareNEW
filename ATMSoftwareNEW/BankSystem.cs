@@ -20,43 +20,9 @@ namespace ATMSoftwareNEW
            return _dataBase.GetCardByNumber(numberCard);
         }
 
-        public bool Authenticate(string numberCard, string pinCode)
-        {
-            BankCard bankCard = _dataBase.GetCardByNumber(numberCard);
-
-            if (bankCard != null)
-            {
-                if (pinCode == bankCard.PinCode)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public bool IsThereBankCard(string numberCard)
-        {
-            BankCard bankCard = _dataBase.GetCardByNumber(numberCard);
-            return bankCard != null;
-        }
-
-        public int GetCardId(string numberCard)
-        {
-            BankCard bankCard = _dataBase.GetCardByNumber(numberCard);
-            return bankCard.Id;
-        }
-
-        public bool IsUserMoneyEnough(int desiredSum, int userId)
-        {
-            User user = _dataBase.GetUserById(userId);
-            return user.Money >= desiredSum;
-        }
-
-        public void Deposit(int desiredSum, int cardId, int userId)
+        public void Deposit(int desiredSum, int cardId)
         {
             BankCard bankCard = _dataBase.GetCardById(cardId);
-            User user = _dataBase.GetUserById(userId);
         }
     }
 }

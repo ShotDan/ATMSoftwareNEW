@@ -11,13 +11,11 @@ namespace ATMSoftwareNEW
     {
         public int Id { get; private set; }
         public string Name { get; private set; }
-        public int Money { get; private set; }
 
-        public User(int id, string name, int money)
+        public User(int id, string name)
         {
             Id = id;
             Name = name;
-            Money = money;
         }
     }
 }

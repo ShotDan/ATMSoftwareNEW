@@ -50,7 +50,7 @@ namespace ATMSoftwareNEW
                         Console.ReadKey();
                         Console.Clear();
 
-                        Console.WriteLine($"{user.Name}, добро пожаловать!\nНа вашем счёте {bankCard.Money}, Ваши наличные:{user.Money}");
+                        Console.WriteLine($"{user.Name}, добро пожаловать!\nНа вашем счёте: {bankCard.Money}");
 
                         Console.WriteLine();
                         Console.WriteLine("Выберите операцию:\n1 - Пополнить счёт\n2 - Снять наличные\n3 - Перевести деньги на другую карту\n4 - Изменить пин-код карты\n5 - Выход");
@@ -116,14 +116,8 @@ namespace ATMSoftwareNEW
 
             if (desiredSum > 0)
             {
-                if (_bankSystem.IsUserMoneyEnough(desiredSum, _userId))
-                {
-                    _bankSystem.Deposit(desiredSum, _bankCardId, _userId);            
-                }
-                else
-                {
-                    Console.WriteLine("Недостаточно средств!");
-                }
+
+                _bankSystem.Deposit(desiredSum, _bankCardId);
             }
             else
             {
